@@ -16,9 +16,7 @@
 
 package com.example.android.architecture.blueprints.todoapp.statistics
 
-import android.app.Application
 import androidx.lifecycle.*
-import com.example.android.architecture.blueprints.todoapp.TodoApplication
 import com.example.android.architecture.blueprints.todoapp.data.Result
 import com.example.android.architecture.blueprints.todoapp.data.Result.Error
 import com.example.android.architecture.blueprints.todoapp.data.Result.Success
