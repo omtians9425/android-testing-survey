@@ -35,6 +35,7 @@ class FakeTestRepository : TasksRepository {
 
     private val observableTasks = MutableLiveData<Result<List<Task>>>()
 
+    private var shouldReturnError = false
 
     override suspend fun refreshTasks() {
         observableTasks.value = getTasks()
@@ -65,6 +66,9 @@ class FakeTestRepository : TasksRepository {
     }
 
     override suspend fun getTask(taskId: String, forceUpdate: Boolean): Result<Task> {
+        if (shouldReturnError) {
+            return Error(Exception("Test Exception"))
+        }
         tasksServiceData[taskId]?.let {
             return Success(it)
         }
@@ -72,6 +76,9 @@ class FakeTestRepository : TasksRepository {
     }
 
     override suspend fun getTasks(forceUpdate: Boolean): Result<List<Task>> {
+        if (shouldReturnError) {
+            return Error(Exception("Test Exception"))
+        }
         return Success(tasksServiceData.values.toList())
     }
 
@@ -121,5 +128,9 @@ class FakeTestRepository : TasksRepository {
             tasksServiceData[task.id] = task
         }
         runBlocking { refreshTasks() }
+    }
+
+    fun setReturnError(value: Boolean) {
+        shouldReturnError = value
     }
 }
